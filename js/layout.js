@@ -10,12 +10,19 @@
         { href: "contact.html", label: "Contact" }
     ];
 
-    // Social media profiles shown in the footer
     const SOCIAL_LINKS = [
         { href: "https://x.com/MiskoRaznatovic", icon: "bi-twitter-x", label: "X" },
         { href: "https://instagram.com/esbekal", icon: "bi-instagram", label: "Instagram" },
         { href: "https://github.com/stefancelo/courtlist", icon: "bi-github", label: "GitHub" }
     ];
+
+    const THEME_KEY = "courtlist-theme";
+
+    const LOGOS = {
+        light: "img/logolight.png",
+        dark: "img/logodark.png"
+    };
+
     function getCurrentPage() {
         const fileName = window.location.pathname.split("/").pop();
         return fileName === "" ? "index.html" : fileName;
@@ -59,9 +66,6 @@
       </nav>`;
     }
 
-    /**
-     * Builds the social media icon links for the footer.
-     */
     function buildSocialLinks() {
         return SOCIAL_LINKS.map(function (link) {
             return `<a href="${link.href}" class="link-body-emphasis fs-5" target="_blank" rel="noopener"
@@ -71,9 +75,6 @@
         }).join("");
     }
 
-    /**
-     * Returns the full footer HTML. The copyright year updates automatically.
-     */
     function buildFooter() {
         const year = new Date().getFullYear();
 
@@ -105,6 +106,54 @@
         </div>
       </footer>`;
     }
+
+    /**
+     * Returns the theme to start with: the saved choice if there is one,
+     * otherwise the visitor's operating system setting.
+     */
+    function getInitialTheme() {
+        let saved = null;
+        try {
+            saved = localStorage.getItem(THEME_KEY);
+        } catch (error) {
+            // localStorage can be blocked (e.g. some private modes); fall back to the OS setting
+        }
+
+        if (saved === "light" || saved === "dark") {
+            return saved;
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute("data-bs-theme", theme);
+
+        document.querySelectorAll(".site-logo").forEach(function (logo) {
+            logo.src = LOGOS[theme];
+        });
+
+        const toggle = document.getElementById("theme-toggle");
+        const nextTheme = theme === "dark" ? "light" : "dark";
+        toggle.innerHTML =
+            theme === "dark"
+                ? '<i class="bi bi-sun" aria-hidden="true"></i>'
+                : '<i class="bi bi-moon-stars" aria-hidden="true"></i>';
+        toggle.setAttribute("aria-label", "Switch to " + nextTheme + " mode");
+    }
+
+    function initThemeToggle() {
+        let currentTheme = getInitialTheme();
+        applyTheme(currentTheme);
+
+        document.getElementById("theme-toggle").addEventListener("click", function () {
+            currentTheme = currentTheme === "dark" ? "light" : "dark";
+            applyTheme(currentTheme);
+            try {
+                localStorage.setItem(THEME_KEY, currentTheme);
+            } catch (error) {}
+        });
+    }
     document.getElementById("site-header").innerHTML = buildHeader();
     document.getElementById("site-footer").innerHTML = buildFooter();
+    initThemeToggle();
 })();
