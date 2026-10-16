@@ -1,0 +1,8 @@
+
+:root {
+  --cl-orange: #ff6500;
+}
+
+.text-orange {
+  color: var(--cl-orange);
+}
