@@ -16,3 +16,16 @@ body {
 main {
   flex: 1 0 auto;
 }
+
+/* Brand button. A darker orange than the logo so white text meets WCAG contrast (about 5:1). */
+.btn-orange {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #c2410c;
+  --bs-btn-border-color: #c2410c;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #9a3412;
+  --bs-btn-hover-border-color: #9a3412;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #7c2d12;
+  --bs-btn-active-border-color: #7c2d12;
+}

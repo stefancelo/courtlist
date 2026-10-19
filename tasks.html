@@ -23,7 +23,111 @@
         <div id="site-header"></div>
 
         <main id="main-content" class="container py-4">
-            <h1>Tasks</h1>
+            <h1 class="mb-4">Tasks</h1>
+
+            <!-- Task summary counters -->
+            <section class="row g-3 mb-4" aria-label="Task summary">
+                <div class="col-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body py-3">
+                            <p class="small text-body-secondary mb-1">Total</p>
+                            <p id="count-total" class="h3 mb-0">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body py-3">
+                            <p class="small text-body-secondary mb-1">Pending</p>
+                            <p id="count-pending" class="h3 mb-0">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body py-3">
+                            <p class="small text-body-secondary mb-1">Completed</p>
+                            <p id="count-completed" class="h3 mb-0">0</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="row g-4">
+                <!-- Add-task form (left on desktop, top on mobile) -->
+                <section class="col-lg-4" aria-labelledby="form-heading">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h2 id="form-heading" class="h5 mb-3">Add a task</h2>
+
+                            <form id="task-form" novalidate>
+                                <div class="mb-3">
+                                    <label for="task-title" class="form-label">Task name</label>
+                                    <input type="text" id="task-title" class="form-control" required maxlength="80" />
+                                    <div class="invalid-feedback">Enter a task name of at least 3 characters.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="task-description" class="form-label">Description</label>
+                                    <textarea
+                                        id="task-description"
+                                        class="form-control"
+                                        rows="3"
+                                        required
+                                        maxlength="300"></textarea>
+                                    <div class="invalid-feedback">Enter a short description.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="task-due" class="form-label">Due date</label>
+                                    <input type="date" id="task-due" class="form-control" required />
+                                    <div class="invalid-feedback">Pick a due date from today onwards.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="task-priority" class="form-label">Priority</label>
+                                    <select id="task-priority" class="form-select">
+                                        <option value="high">High</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" id="form-submit" class="btn btn-orange w-100">Add task</button>
+                                <button
+                                    type="button"
+                                    id="form-cancel"
+                                    class="btn btn-outline-secondary w-100 mt-2 d-none">
+                                    Cancel
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Task list (right on desktop, below the form on mobile) -->
+                <section class="col-lg-8" aria-labelledby="list-heading">
+                    <h2 id="list-heading" class="h5 mb-3">All tasks</h2>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Task</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Due</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col" class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="task-table-body"></tbody>
+                        </table>
+                    </div>
+
+                    <p id="empty-message" class="text-body-secondary d-none">No tasks yet. Add one with the form.</p>
+                </section>
+            </div>
         </main>
 
         <div id="site-footer"></div>
