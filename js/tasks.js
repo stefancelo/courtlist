@@ -12,6 +12,11 @@
     const countTotal = document.getElementById("count-total");
     const countPending = document.getElementById("count-pending");
     const countCompleted = document.getElementById("count-completed");
+    const searchInput = document.getElementById("search-input");
+    const statusFilter = document.getElementById("filter-status");
+    const priorityFilter = document.getElementById("filter-priority");
+    const sortSelect = document.getElementById("sort-tasks");
+    const resultCount = document.getElementById("result-count");
 
     // Bootstrap badge colour per priority and status
     const PRIORITY_BADGES = {
@@ -147,13 +152,65 @@
             removeTask(id);
         }
     });
+
     /**
-     * Redraws the whole table from storage. Called on load and after every change.
+     * Compares two tasks according to the selected sort option.
+     * Dates are "YYYY-MM-DD" text, so text order equals date order.
+     */
+    function compareTasks(a, b) {
+        switch (sortSelect.value) {
+            case "due-desc":
+                return b.dueDate.localeCompare(a.dueDate);
+            case "name-asc":
+                return a.title.localeCompare(b.title);
+            case "name-desc":
+                return b.title.localeCompare(a.title);
+            default:
+                return a.dueDate.localeCompare(b.dueDate);
+        }
+    }
+
+    /**
+     * Returns the tasks that match the search text and both filters, sorted.
+     */
+    function getVisibleTasks(tasks) {
+        const query = searchInput.value.trim().toLowerCase();
+        const status = statusFilter.value;
+        const priority = priorityFilter.value;
+
+        return tasks
+            .filter(function (task) {
+                const matchesSearch =
+                    query === "" ||
+                    task.title.toLowerCase().includes(query) ||
+                    task.description.toLowerCase().includes(query);
+
+                const matchesStatus =
+                    status === "all" ||
+                    (status === "completed" && task.status === "completed") ||
+                    (status === "pending" && task.status !== "completed");
+
+                const matchesPriority = priority === "all" || task.priority === priority;
+
+                return matchesSearch && matchesStatus && matchesPriority;
+            })
+            .sort(compareTasks);
+    }
+    /**
+     * Redraws the table from storage, applying search, filters and sorting.
+     * The summary counters always count all tasks, not just the visible ones.
      */
     function renderTasks() {
         const tasks = TaskStore.getTasks();
-        tableBody.innerHTML = tasks.map(buildRow).join("");
-        emptyMessage.classList.toggle("d-none", tasks.length > 0);
+        const visibleTasks = getVisibleTasks(tasks);
+
+        tableBody.innerHTML = visibleTasks.map(buildRow).join("");
+        resultCount.textContent = "Showing " + visibleTasks.length + " of " + tasks.length + " tasks";
+
+        emptyMessage.textContent =
+            tasks.length === 0 ? "No tasks yet. Add one with the form." : "No tasks match your search or filters.";
+        emptyMessage.classList.toggle("d-none", visibleTasks.length > 0);
+
         renderSummary(tasks);
     }
 
@@ -260,7 +317,11 @@
     form.addEventListener("submit", handleSubmit);
     form.addEventListener("input", validateCustomRules);
     cancelButton.addEventListener("click", exitEditMode);
-
+    // Live search on every keystroke; filters and sorting on every change
+    searchInput.addEventListener("input", renderTasks);
+    [statusFilter, priorityFilter, sortSelect].forEach(function (select) {
+        select.addEventListener("change", renderTasks);
+    });
     // Start
     renderTasks();
 })();

@@ -109,6 +109,45 @@
                 <section class="col-lg-8" aria-labelledby="list-heading">
                     <h2 id="list-heading" class="h5 mb-3">All tasks</h2>
 
+                    <!-- Search, filters and sorting -->
+                    <div class="row g-2 mb-2">
+                        <div class="col-12 col-md-6">
+                            <label for="search-input" class="visually-hidden">Search tasks</label>
+                            <input
+                                type="search"
+                                id="search-input"
+                                class="form-control"
+                                placeholder="Search by name or description" />
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <label for="filter-status" class="visually-hidden">Filter by status</label>
+                            <select id="filter-status" class="form-select">
+                                <option value="all">All statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <label for="filter-priority" class="visually-hidden">Filter by priority</label>
+                            <select id="filter-priority" class="form-select">
+                                <option value="all">All priorities</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <label for="sort-tasks" class="visually-hidden">Sort tasks</label>
+                            <select id="sort-tasks" class="form-select">
+                                <option value="due-asc">Due: soonest</option>
+                                <option value="due-desc">Due: latest</option>
+                                <option value="name-asc">Name: A–Z</option>
+                                <option value="name-desc">Name: Z–A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p id="result-count" class="small text-body-secondary mb-2" aria-live="polite"></p>
+
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead>
