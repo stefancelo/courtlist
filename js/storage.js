@@ -12,6 +12,13 @@ const TaskStore = (function () {
   const ACTIVITY_KEY = "courtlist-activity";
   const MAX_ACTIVITY = 20;
 
+  // Display names for each status, shared by every page
+  const STATUS_LABELS = {
+    todo: "To do",
+    "in-progress": "In progress",
+    completed: "Completed"
+  };
+
   /* ---------- Low-level helpers (private) ---------- */
 
   /**
@@ -72,14 +79,62 @@ const TaskStore = (function () {
   function getSeedTasks() {
     const now = new Date().toISOString();
     const examples = [
-      { title: "Confirm referee assignments for Round 8", description: "Send the final crew list to all home clubs.", dueDate: daysFromToday(2), priority: "high", status: "todo" },
-      { title: "Media accreditation list for Athens game", description: "Collect and approve press requests for the home game.", dueDate: daysFromToday(1), priority: "high", status: "in-progress" },
-      { title: "Arena LED board check", description: "Test courtside LED boards and the shot clock display.", dueDate: daysFromToday(4), priority: "medium", status: "todo" },
-      { title: "Publish Round 7 highlights package", description: "Edit and upload the top 10 plays video.", dueDate: daysFromToday(-1), priority: "medium", status: "completed" },
-      { title: "Update standings graphics", description: "Refresh broadcast graphics after the latest results.", dueDate: daysFromToday(3), priority: "low", status: "todo" },
-      { title: "Book team hotel for away trip", description: "Reserve rooms for players and staff for the Belgrade game.", dueDate: daysFromToday(6), priority: "medium", status: "in-progress" },
-      { title: "Anti-doping control room setup", description: "Prepare the testing room and confirm the officer's arrival.", dueDate: daysFromToday(2), priority: "high", status: "todo" },
-      { title: "Send ticketing report to league office", description: "Attendance and sales figures for the last home game.", dueDate: daysFromToday(-2), priority: "low", status: "completed" }
+      {
+        title: "Confirm referee assignments for Round 8",
+        description: "Send the final crew list to all home clubs.",
+        dueDate: daysFromToday(2),
+        priority: "high",
+        status: "todo"
+      },
+      {
+        title: "Media accreditation list for Athens game",
+        description: "Collect and approve press requests for the home game.",
+        dueDate: daysFromToday(1),
+        priority: "high",
+        status: "in-progress"
+      },
+      {
+        title: "Arena LED board check",
+        description: "Test courtside LED boards and the shot clock display.",
+        dueDate: daysFromToday(4),
+        priority: "medium",
+        status: "todo"
+      },
+      {
+        title: "Publish Round 7 highlights package",
+        description: "Edit and upload the top 10 plays video.",
+        dueDate: daysFromToday(-1),
+        priority: "medium",
+        status: "completed"
+      },
+      {
+        title: "Update standings graphics",
+        description: "Refresh broadcast graphics after the latest results.",
+        dueDate: daysFromToday(3),
+        priority: "low",
+        status: "todo"
+      },
+      {
+        title: "Book team hotel for away trip",
+        description: "Reserve rooms for players and staff for the Belgrade game.",
+        dueDate: daysFromToday(6),
+        priority: "medium",
+        status: "in-progress"
+      },
+      {
+        title: "Anti-doping control room setup",
+        description: "Prepare the testing room and confirm the officer's arrival.",
+        dueDate: daysFromToday(2),
+        priority: "high",
+        status: "todo"
+      },
+      {
+        title: "Send ticketing report to league office",
+        description: "Attendance and sales figures for the last home game.",
+        dueDate: daysFromToday(-2),
+        priority: "low",
+        status: "completed"
+      }
     ];
 
     return examples.map(function (task) {
@@ -183,9 +238,12 @@ const TaskStore = (function () {
       return false;
     }
 
-    write(TASKS_KEY, tasks.filter(function (item) {
-      return item.id !== id;
-    }));
+    write(
+      TASKS_KEY,
+      tasks.filter(function (item) {
+        return item.id !== id;
+      })
+    );
     logActivity("deleted", task.title);
     return true;
   }
@@ -197,6 +255,14 @@ const TaskStore = (function () {
     return read(ACTIVITY_KEY, []);
   }
 
+  /**
+   * "2026-10-25" -> "25 Oct 2026", read as local time (not UTC).
+   */
+  function formatDate(dateString) {
+    const parts = dateString.split("-");
+    const date = new Date(parts[0], parts[1] - 1, parts[2]);
+    return date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  }
   /**
    * Makes user text safe to insert with innerHTML (prevents HTML/script injection).
    */
@@ -218,6 +284,8 @@ const TaskStore = (function () {
     deleteTask: deleteTask,
     getActivity: getActivity,
     escapeHtml: escapeHtml,
+    STATUS_LABELS: STATUS_LABELS,
+    formatDate: formatDate,
     today: function () {
       return toDateString(new Date());
     }

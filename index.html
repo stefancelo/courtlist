@@ -22,8 +22,116 @@
   <body>
     <div id="site-header"></div>
 
-    <main id="main-content" class="container py-4">
-      <h1>Home</h1>
+    <main id="main-content">
+      <!-- Welcome section -->
+      <section class="py-5 border-bottom bg-body-tertiary" aria-labelledby="hero-heading">
+        <div class="container py-lg-4">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+              <p class="text-uppercase small fw-semibold text-body-secondary mb-2">
+                Organize / Operate / Own the court
+              </p>
+              <h1 id="hero-heading" class="display-5 fw-bold">Game-day operations, organised.</h1>
+              <p class="lead text-body-secondary mb-4">
+                CourtList is the task manager for Euroleague operations staff. Referee assignments, arena checks, media
+                deadlines and team travel, tracked in one place from tip-off to the final buzzer.
+              </p>
+              <a href="tasks.html" class="btn btn-orange btn-lg">Go to your tasks</a>
+              <a href="analytics.html" class="btn btn-outline-secondary btn-lg ms-sm-2 mt-2 mt-sm-0">View the board</a>
+            </div>
+            <div class="col-lg-5 text-center d-none d-lg-block">
+              <img class="site-logo" src="img/logo-light.png" alt="" width="220" height="220" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Products and features overview -->
+      <section class="container py-5" aria-labelledby="features-heading">
+        <h2 id="features-heading" class="h3 mb-4">What CourtList does</h2>
+        <div class="row g-4">
+          <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <i class="bi bi-list-check fs-2 text-orange" aria-hidden="true"></i>
+                <h3 class="h6 mt-3">Task tracking</h3>
+                <p class="small text-body-secondary mb-0">
+                  Add, edit and prioritise every matchday task, with due dates and status.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <i class="bi bi-kanban fs-2 text-orange" aria-hidden="true"></i>
+                <h3 class="h6 mt-3">Kanban board</h3>
+                <p class="small text-body-secondary mb-0">
+                  Drag tasks from To do to Completed and see the whole workflow at a glance.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <i class="bi bi-bar-chart fs-2 text-orange" aria-hidden="true"></i>
+                <h3 class="h6 mt-3">Analytics</h3>
+                <p class="small text-body-secondary mb-0">
+                  Charts of completed work and priorities across the operations team.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <i class="bi bi-calendar-event fs-2 text-orange" aria-hidden="true"></i>
+                <h3 class="h6 mt-3">Gameweek view</h3>
+                <p class="small text-body-secondary mb-0">
+                  Countdown to the next round and matchday checklists for every arena.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest activity and weather (Parts C and D) -->
+      <section class="container pb-5">
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h2 class="h5 mb-0">Latest activity</h2>
+                  <a href="tasks.html" class="small">All tasks</a>
+                </div>
+                <ul id="activity-list" class="list-group list-group-flush"></ul>
+                <p id="activity-empty" class="text-body-secondary mb-0 d-none">
+                  No activity yet. <a href="tasks.html">Add or complete a task</a> and it shows up here.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="card h-100">
+              <div class="card-body">
+                <h2 class="h5">Matchday weather</h2>
+                <label for="weather-city" class="form-label small text-body-secondary">Host city</label>
+                <select id="weather-city" class="form-select mb-3"></select>
+                <div id="weather-output" aria-live="polite">
+                  <p class="text-body-secondary mb-0">Loading weather…</p>
+                </div>
+                <p class="small text-body-secondary mt-3 mb-0">
+                  Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <div id="site-footer"></div>

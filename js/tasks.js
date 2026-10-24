@@ -25,11 +25,9 @@
         low: "text-bg-success"
     };
 
-    const STATUS_LABELS = {
-        todo: "To do",
-        "in-progress": "In progress",
-        completed: "Completed"
-    };
+    // Shared helpers from storage.js
+    const STATUS_LABELS = TaskStore.STATUS_LABELS;
+    const formatDate = TaskStore.formatDate;
 
     const STATUS_BADGES = {
         todo: "text-bg-secondary",
@@ -42,16 +40,6 @@
      */
     function capitalise(text) {
         return text.charAt(0).toUpperCase() + text.slice(1);
-    }
-
-    /**
-     * "2026-10-25" -> "25 Oct 2026"
-     * Built from its parts so the date is read as local time, not UTC.
-     */
-    function formatDate(dateString) {
-        const parts = dateString.split("-");
-        const date = new Date(parts[0], parts[1] - 1, parts[2]);
-        return date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
     }
 
     /**

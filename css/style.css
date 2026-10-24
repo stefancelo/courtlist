@@ -1,4 +1,3 @@
-
 :root {
   --cl-orange: #ff6500;
 }
@@ -28,4 +27,10 @@ main {
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #7c2d12;
   --bs-btn-active-border-color: #7c2d12;
+}
+
+/* Reserve space for the weather widget so the layout doesn't jump while it loads */
+#weather-output {
+  min-height: 7rem;
+  transition: opacity 0.2s;
 }
