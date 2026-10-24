@@ -22,7 +22,40 @@
   <body>
     <div id="site-header"></div>
     <main id="main-content" class="container py-4">
-      <h1>Analytics</h1>
+      <h1 class="mb-4">Analytics</h1>
+
+      <!-- Task charts -->
+      <section class="mb-5" aria-labelledby="charts-heading">
+        <h2 id="charts-heading" class="h4 mb-3">Task overview</h2>
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6">Tasks by status</h3>
+                <div class="chart-box">
+                  <canvas id="status-chart" role="img" aria-label="Bar chart of tasks by status"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h6">Tasks by priority</h3>
+                <div class="chart-box">
+                  <canvas id="priority-chart" role="img" aria-label="Doughnut chart of tasks by priority"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Kanban board (next step) -->
+      <section aria-labelledby="board-heading">
+        <h2 id="board-heading" class="h4 mb-3">Kanban board</h2>
+        <div id="kanban-board" class="row g-3"></div>
+      </section>
     </main>
 
     <div id="site-footer"></div>
@@ -30,6 +63,10 @@
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"
+      integrity="sha384-dug+JxfBvklEQdJ4AYuBBAIScUz0bVN73xpy273gcAwHjb3qI0fXmuYNaNfdyYJG"
       crossorigin="anonymous"></script>
     <script src="js/storage.js"></script>
     <script src="js/layout.js"></script>

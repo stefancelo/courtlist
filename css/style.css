@@ -34,3 +34,9 @@ main {
   min-height: 7rem;
   transition: opacity 0.2s;
 }
+
+/* Fixed-height box for charts; Chart.js fills it */
+.chart-box {
+  position: relative;
+  height: 280px;
+}

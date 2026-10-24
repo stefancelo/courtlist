@@ -139,6 +139,8 @@
                 ? '<i class="bi bi-sun" aria-hidden="true"></i>'
                 : '<i class="bi bi-moon-stars" aria-hidden="true"></i>';
         toggle.setAttribute("aria-label", "Switch to " + nextTheme + " mode");
+        // Let page scripts (e.g. charts) react to the theme change
+        document.dispatchEvent(new CustomEvent("courtlist:themechange", { detail: { theme: theme } }));
     }
 
     function initThemeToggle() {
