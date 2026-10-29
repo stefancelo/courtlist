@@ -58,3 +58,29 @@ main {
   outline: 2px dashed var(--cl-orange);
   outline-offset: -4px;
 }
+
+/* Team member avatar: initials in a circle */
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #be8015;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+/* Carousel slide: dark brand background so Bootstrap's white arrows and indicators stay visible */
+.process-slide {
+  background-color: #0b1f3a;
+  color: #fff;
+  min-height: 240px;
+  padding: 3rem 4rem 3.5rem;
+}
+
+.process-slide p {
+  max-width: 36rem;
+}
