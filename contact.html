@@ -23,7 +23,136 @@
         <div id="site-header"></div>
 
         <main id="main-content" class="container py-4">
-            <h1>Contact</h1>
+            <h1 class="mb-2">Contact</h1>
+            <p class="text-body-secondary mb-4">
+                Questions about CourtList, a bug to report, or a feature your matchday team needs? Send us a message.
+            </p>
+
+            <div class="row g-4">
+                <!-- Contact form -->
+                <section class="col-lg-7" aria-labelledby="form-heading">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h2 id="form-heading" class="h5 mb-3">Send a message</h2>
+
+                            <form id="contact-form" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="contact-name" class="form-label">Name</label>
+                                        <input
+                                            type="text"
+                                            id="contact-name"
+                                            class="form-control"
+                                            required
+                                            maxlength="60"
+                                            autocomplete="name" />
+                                        <div class="invalid-feedback">Enter your name (at least 2 characters).</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="contact-email" class="form-label">Email</label>
+                                        <input
+                                            type="email"
+                                            id="contact-email"
+                                            class="form-control"
+                                            required
+                                            maxlength="100"
+                                            autocomplete="email" />
+                                        <div class="invalid-feedback">
+                                            Enter a valid email address, e.g. name@example.com.
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="contact-subject" class="form-label">Subject</label>
+                                        <input
+                                            type="text"
+                                            id="contact-subject"
+                                            class="form-control"
+                                            required
+                                            maxlength="100" />
+                                        <div class="invalid-feedback">Enter a subject (at least 3 characters).</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="contact-message" class="form-label">Message</label>
+                                        <textarea
+                                            id="contact-message"
+                                            class="form-control"
+                                            rows="5"
+                                            required
+                                            maxlength="1000"></textarea>
+                                        <div class="invalid-feedback">Enter a message of at least 10 characters.</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-orange">Send message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Office details, map and social links -->
+                <section class="col-lg-5" aria-labelledby="office-heading">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 id="office-heading" class="h5 mb-3">Our office:</h2>
+                            <ul class="list-unstyled mb-3">
+                                <li class="mb-2">
+                                    <i class="bi bi-geo-alt me-2 text-orange" aria-hidden="true"></i>American College of
+                                    Greece, Agia Paraskevi, Athens
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-envelope me-2 text-orange" aria-hidden="true"></i
+                                    ><a href="mailto:sbl@courtlist.com">sbl@courtlist.com</a>
+                                </li>
+                                <li>
+                                    <i class="bi bi-clock me-2 text-orange" aria-hidden="true"></i>Monday to Friday,
+                                    09:00 to 18:00
+                                </li>
+                            </ul>
+
+                            <div class="ratio ratio-4x3 mb-3 rounded overflow-hidden">
+                                <iframe
+                                    class="border-0"
+                                    src="https://www.google.com/maps?q=American+College+of+Greece,+Agia+Paraskevi&output=embed"
+                                    title="Map showing the CourtList office at the American College of Greece, Agia Paraskevi"
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    allowfullscreen></iframe>
+                            </div>
+
+                            <h3 class="h6">Follow us</h3>
+                            <div id="contact-social" class="d-flex gap-3"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Confirmation pop-up shown after a valid submit -->
+            <div class="modal fade" id="confirm-modal" tabindex="-1" aria-labelledby="confirm-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title h5" id="confirm-title">Message sent</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Thanks, <strong id="confirm-name"></strong>. We received your message and will reply to
+                                <strong id="confirm-email"></strong>.
+                            </p>
+                            <dl class="mb-0">
+                                <dt>Subject</dt>
+                                <dd id="confirm-subject"></dd>
+                                <dt>Message</dt>
+                                <dd id="confirm-message" class="preserve-lines mb-0"></dd>
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <div id="site-footer"></div>
