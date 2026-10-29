@@ -1,34 +1,34 @@
 /**
  * tasks.js
- * Tasks page: renders the tasks table and handles the add-task form.
+ * Tasks page: tasks table with search, filters and sorting, summary counters,
+ * the add/edit form, and complete/edit/delete actions.
  * All data goes through TaskStore (storage.js).
  */
 (function () {
     "use strict";
 
-    // Elements used on this page
+    /* ---------- Page elements ---------- */
+
     const tableBody = document.getElementById("task-table-body");
     const emptyMessage = document.getElementById("empty-message");
+    const resultCount = document.getElementById("result-count");
+
     const countTotal = document.getElementById("count-total");
     const countPending = document.getElementById("count-pending");
     const countCompleted = document.getElementById("count-completed");
+
     const searchInput = document.getElementById("search-input");
     const statusFilter = document.getElementById("filter-status");
     const priorityFilter = document.getElementById("filter-priority");
     const sortSelect = document.getElementById("sort-tasks");
-    const resultCount = document.getElementById("result-count");
 
-    // Bootstrap badge colour per priority and status
-    const PRIORITY_BADGES = {
-        high: "text-bg-danger",
-        medium: "text-bg-warning",
-        low: "text-bg-success"
-    };
+    /* ---------- Shared helpers from storage.js ---------- */
 
-    // Shared helpers from storage.js
     const STATUS_LABELS = TaskStore.STATUS_LABELS;
+    const PRIORITY_BADGES = TaskStore.PRIORITY_BADGES;
     const formatDate = TaskStore.formatDate;
 
+    // Bootstrap badge colour per status
     const STATUS_BADGES = {
         todo: "text-bg-secondary",
         "in-progress": "text-bg-info",
@@ -41,6 +41,8 @@
     function capitalise(text) {
         return text.charAt(0).toUpperCase() + text.slice(1);
     }
+
+    /* ---------- Table ---------- */
 
     /**
      * Returns the HTML for one table row. User text is escaped before insertion.
@@ -74,72 +76,6 @@
       </td>
     </tr>`;
     }
-    /**
-     * Updates the summary counters. "Pending" = everything not completed
-     * (both "To do" and "In progress").
-     */
-    function renderSummary(tasks) {
-        const completed = tasks.filter(function (task) {
-            return task.status === "completed";
-        }).length;
-
-        countTotal.textContent = tasks.length;
-        countPending.textContent = tasks.length - completed;
-        countCompleted.textContent = completed;
-    }
-    /**
-     * Switches a task between completed and to do.
-     */
-    function toggleComplete(id) {
-        const task = TaskStore.getTaskById(id);
-        if (!task) {
-            return;
-        }
-        const newStatus = task.status === "completed" ? "todo" : "completed";
-        TaskStore.updateTask(id, { status: newStatus });
-        renderTasks();
-    }
-
-    /**
-     * Deletes a task after the user confirms.
-     */
-    function removeTask(id) {
-        const task = TaskStore.getTaskById(id);
-        if (!task) {
-            return;
-        }
-        if (!confirm('Delete "' + task.title + '"? This cannot be undone.')) {
-            return;
-        }
-        // If the task being edited is deleted, leave edit mode
-        if (editingTask && editingTask.id === id) {
-            exitEditMode();
-        }
-        TaskStore.deleteTask(id);
-        renderTasks();
-    }
-
-    /**
-     * One click listener for the whole table (event delegation).
-     * Finds the clicked button and runs the matching action.
-     */
-    tableBody.addEventListener("click", function (event) {
-        const button = event.target.closest("button[data-action]");
-        if (!button) {
-            return;
-        }
-
-        const id = button.dataset.id;
-        const action = button.dataset.action;
-
-        if (action === "toggle") {
-            toggleComplete(id);
-        } else if (action === "edit") {
-            startEdit(id);
-        } else if (action === "delete") {
-            removeTask(id);
-        }
-    });
 
     /**
      * Compares two tasks according to the selected sort option.
@@ -184,6 +120,21 @@
             })
             .sort(compareTasks);
     }
+
+    /**
+     * Updates the summary counters. "Pending" = everything not completed
+     * (both "To do" and "In progress").
+     */
+    function renderSummary(tasks) {
+        const completed = tasks.filter(function (task) {
+            return task.status === "completed";
+        }).length;
+
+        countTotal.textContent = tasks.length;
+        countPending.textContent = tasks.length - completed;
+        countCompleted.textContent = completed;
+    }
+
     /**
      * Redraws the table from storage, applying search, filters and sorting.
      * The summary counters always count all tasks, not just the visible ones.
@@ -202,7 +153,8 @@
         renderSummary(tasks);
     }
 
-    // Form elements
+    /* ---------- Add / edit form ---------- */
+
     const form = document.getElementById("task-form");
     const formHeading = document.getElementById("form-heading");
     const submitButton = document.getElementById("form-submit");
@@ -301,15 +253,73 @@
         titleInput.focus();
     }
 
+    /* ---------- Row actions ---------- */
+
+    /**
+     * Switches a task between completed and to do.
+     */
+    function toggleComplete(id) {
+        const task = TaskStore.getTaskById(id);
+        if (!task) {
+            return;
+        }
+        const newStatus = task.status === "completed" ? "todo" : "completed";
+        TaskStore.updateTask(id, { status: newStatus });
+        renderTasks();
+    }
+
+    /**
+     * Deletes a task after the user confirms.
+     */
+    function removeTask(id) {
+        const task = TaskStore.getTaskById(id);
+        if (!task) {
+            return;
+        }
+        if (!confirm('Delete "' + task.title + '"? This cannot be undone.')) {
+            return;
+        }
+        // If the task being edited is deleted, leave edit mode
+        if (editingTask && editingTask.id === id) {
+            exitEditMode();
+        }
+        TaskStore.deleteTask(id);
+        renderTasks();
+    }
+
+    /* ---------- Event listeners ---------- */
+
+    // Form
     dueInput.min = TaskStore.today();
     form.addEventListener("submit", handleSubmit);
     form.addEventListener("input", validateCustomRules);
     cancelButton.addEventListener("click", exitEditMode);
+
+    // One click listener for every row button (event delegation)
+    tableBody.addEventListener("click", function (event) {
+        const button = event.target.closest("button[data-action]");
+        if (!button) {
+            return;
+        }
+
+        const id = button.dataset.id;
+        const action = button.dataset.action;
+
+        if (action === "toggle") {
+            toggleComplete(id);
+        } else if (action === "edit") {
+            startEdit(id);
+        } else if (action === "delete") {
+            removeTask(id);
+        }
+    });
+
     // Live search on every keystroke; filters and sorting on every change
     searchInput.addEventListener("input", renderTasks);
     [statusFilter, priorityFilter, sortSelect].forEach(function (select) {
         select.addEventListener("change", renderTasks);
     });
-    // Start
+
+    /* ---------- Start ---------- */
     renderTasks();
 })();

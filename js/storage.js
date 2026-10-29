@@ -19,6 +19,13 @@ const TaskStore = (function () {
     completed: "Completed"
   };
 
+  // Bootstrap badge colour per priority, shared by every page
+  const PRIORITY_BADGES = {
+    high: "text-bg-danger",
+    medium: "text-bg-warning",
+    low: "text-bg-success"
+  };
+
   /* ---------- Low-level helpers (private) ---------- */
 
   /**
@@ -44,6 +51,14 @@ const TaskStore = (function () {
     } catch (error) {
       console.warn("CourtList: could not save to localStorage", error);
     }
+  }
+
+  /**
+   * Saves the task list and tells any depending page that tasks changed.
+   */
+  function saveTasks(tasks) {
+    write(TASKS_KEY, tasks);
+    document.dispatchEvent(new CustomEvent("courtlist:taskschange"));
   }
 
   /**
@@ -196,7 +211,7 @@ const TaskStore = (function () {
     };
 
     tasks.push(task);
-    write(TASKS_KEY, tasks);
+    saveTasks(tasks);
     logActivity("added", task.title);
     return task;
   }
@@ -216,7 +231,7 @@ const TaskStore = (function () {
 
     const oldStatus = task.status;
     Object.assign(task, changes);
-    write(TASKS_KEY, tasks);
+    saveTasks(tasks);
 
     if (changes.status && changes.status !== oldStatus) {
       logActivity(changes.status === "completed" ? "completed" : "moved", task.title, changes.status);
@@ -238,8 +253,7 @@ const TaskStore = (function () {
       return false;
     }
 
-    write(
-      TASKS_KEY,
+    saveTasks(
       tasks.filter(function (item) {
         return item.id !== id;
       })
@@ -263,6 +277,7 @@ const TaskStore = (function () {
     const date = new Date(parts[0], parts[1] - 1, parts[2]);
     return date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
   }
+
   /**
    * Makes user text safe to insert with innerHTML (prevents HTML/script injection).
    */
@@ -275,17 +290,18 @@ const TaskStore = (function () {
       .replace(/'/g, "&#39;");
   }
 
-  // Only these functions are visible to other files
+  // Only these are visible to other files
   return {
+    STATUS_LABELS: STATUS_LABELS,
+    PRIORITY_BADGES: PRIORITY_BADGES,
     getTasks: getTasks,
     getTaskById: getTaskById,
     addTask: addTask,
     updateTask: updateTask,
     deleteTask: deleteTask,
     getActivity: getActivity,
-    escapeHtml: escapeHtml,
-    STATUS_LABELS: STATUS_LABELS,
     formatDate: formatDate,
+    escapeHtml: escapeHtml,
     today: function () {
       return toDateString(new Date());
     }
