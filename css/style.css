@@ -1,4 +1,11 @@
-:root {
+/* New orange. Darker in light mode so orange text contrasts on white;
+   the brighter logo orange is used in dark mode, where it has enough contrast. */
+:root,
+[data-bs-theme="light"] {
+  --cl-orange: #c2410c;
+}
+
+[data-bs-theme="dark"] {
   --cl-orange: #ff6500;
 }
 
@@ -104,4 +111,16 @@ main {
   font-size: 0.75rem;
   text-transform: uppercase;
   color: var(--bs-secondary-color);
+}
+
+/* Bootstrap keeps the outline-secondary grey the same in dark mode, which fails contrast
+   on dark backgrounds. A lighter grey in dark mode gives about 6.5:1 or more. */
+[data-bs-theme="dark"] .btn-outline-secondary {
+  --bs-btn-color: #adb5bd;
+  --bs-btn-border-color: #adb5bd;
+}
+
+/* Reserve the navbar's height before layout.js inserts it, so the page doesn't jump */
+#site-header {
+  min-height: 67px;
 }
