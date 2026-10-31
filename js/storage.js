@@ -302,6 +302,7 @@ const TaskStore = (function () {
     getActivity: getActivity,
     formatDate: formatDate,
     escapeHtml: escapeHtml,
+    toDateString: toDateString,
     today: function () {
       return toDateString(new Date());
     }

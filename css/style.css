@@ -84,3 +84,24 @@ main {
 .process-slide p {
   max-width: 36rem;
 }
+
+/* Gameweek countdown boxes */
+.countdown-box {
+  min-width: 4.5rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.countdown-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}

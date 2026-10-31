@@ -25,7 +25,60 @@
         <div id="site-header"></div>
 
         <main id="main-content" class="container py-4">
-            <h1>Gameweek</h1>
+            <h1 class="mb-2">Gameweek</h1>
+            <p class="text-body-secondary mb-4">
+                Everything for the next Euroleague round: time to tip-off, the fixtures and each arena's matchday
+                checklist.
+                <span class="small">(Sample schedule.)</span>
+            </p>
+
+            <!-- Component 1: countdown to the next tip-off -->
+            <section class="card mb-4" aria-labelledby="countdown-heading">
+                <div class="card-body text-center">
+                    <h2 id="countdown-heading" class="h5 mb-1">Next tip-off</h2>
+                    <p id="next-game" class="text-body-secondary mb-3"></p>
+                    <div id="countdown" class="d-flex justify-content-center gap-2 gap-sm-3" role="timer"></div>
+                </div>
+            </section>
+
+            <!-- Component 2: fixtures with "create prep task" buttons -->
+            <section class="mb-4" aria-labelledby="fixtures-heading">
+                <h2 id="fixtures-heading" class="h4 mb-3">Round fixtures</h2>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Game</th>
+                                <th scope="col">Arena</th>
+                                <th scope="col">Tip-off</th>
+                                <th scope="col" class="text-end">Preparation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fixtures-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Component 3: matchday checklists per arena -->
+            <section aria-labelledby="checklists-heading">
+                <h2 id="checklists-heading" class="h4 mb-3">Matchday checklists</h2>
+                <div id="checklists" class="accordion"></div>
+            </section>
+
+            <!-- Toast message shown after creating a prep task -->
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="gameweek-toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+                    <div class="toast-body d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle text-success" aria-hidden="true"></i>
+                        <span id="toast-message"></span>
+                        <button
+                            type="button"
+                            class="btn-close ms-auto"
+                            data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <div id="site-footer"></div>
