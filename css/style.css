@@ -158,3 +158,55 @@ h2.h4,
   background: radial-gradient(circle at 85% 35%, rgba(255, 101, 0, 0.35), transparent 45%),
     linear-gradient(135deg, #0b1f3a 0%, #13294b 60%, #0b1f3a 100%);
 }
+
+/* Cards: rounder corners and a soft shadow instead of a hard border */
+.card {
+  --bs-card-border-radius: 0.875rem;
+  --bs-card-inner-border-radius: calc(0.875rem - 1px);
+  --bs-card-border-color: var(--bs-border-color-translucent);
+  box-shadow:
+    0 1px 2px rgba(11, 31, 58, 0.06),
+    0 4px 16px rgba(11, 31, 58, 0.06);
+}
+
+[data-bs-theme="dark"] .card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Home feature cards and About team cards lift slightly on hover */
+section[aria-labelledby="features-heading"] .card,
+#team-grid .card {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+section[aria-labelledby="features-heading"] .card:hover,
+#team-grid .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(11, 31, 58, 0.14);
+}
+
+/* Home feature icons sit on a soft orange tile */
+section[aria-labelledby="features-heading"] .card .bi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background-color: rgba(255, 101, 0, 0.12);
+}
+
+/* Respect users who turn off animations in their operating system */
+@media (prefers-reduced-motion: reduce) {
+  section[aria-labelledby="features-heading"] .card,
+  #team-grid .card {
+    transition: none;
+  }
+
+  section[aria-labelledby="features-heading"] .card:hover,
+  #team-grid .card:hover {
+    transform: none;
+  }
+}
