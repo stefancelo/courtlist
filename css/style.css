@@ -124,3 +124,13 @@ main {
 #site-header {
   min-height: 67px;
 }
+
+/* Mobile task list: the arrow on the "Description" button flips when expanded */
+.btn .bi-chevron-down {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.btn[aria-expanded="true"] .bi-chevron-down {
+  transform: rotate(180deg);
+}

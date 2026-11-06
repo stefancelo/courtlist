@@ -1,7 +1,7 @@
 /**
  * tasks.js
- * Tasks page: tasks table with search, filters and sorting, summary counters,
- * the add/edit form, and complete/edit/delete actions.
+ * Tasks page: tasks table (tablet/desktop) and card list (phones), search, filters, sorting,
+ * summary counters, add/edit form, and complete/edit/delete actions.
  * All data goes through TaskStore (storage.js).
  */
 (function () {
@@ -9,7 +9,9 @@
 
     /* ---------- Page elements ---------- */
 
+    const taskViews = document.querySelector("#task-views");
     const tableBody = document.querySelector("#task-table-body");
+    const mobileList = document.querySelector("#task-list-mobile");
     const emptyMessage = document.querySelector("#empty-message");
     const resultCount = document.querySelector("#result-count");
 
@@ -27,6 +29,7 @@
     const STATUS_LABELS = TaskStore.STATUS_LABELS;
     const PRIORITY_BADGES = TaskStore.PRIORITY_BADGES;
     const formatDate = TaskStore.formatDate;
+    const safe = TaskStore.escapeHtml;
 
     // Bootstrap badge colour per status
     const STATUS_BADGES = {
@@ -42,40 +45,88 @@
         return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
-    /* ---------- Table ---------- */
+    /**
+     * CSS classes for a task title: struck through when completed, bold otherwise.
+     */
+    function titleClass(task) {
+        return task.status === "completed" ? "text-decoration-line-through text-body-secondary" : "fw-semibold";
+    }
+
+    /* ---------- Building the two views ---------- */
 
     /**
-     * Returns the HTML for one table row. User text is escaped before insertion.
-     * Action buttons carry the task id in data-id so one click handler serves all rows.
+     * Complete / edit / delete buttons. Used by both the table and the mobile list.
+     * Each button carries the task id in data-id so one click handler serves all of them.
      */
-    function buildRow(task) {
-        const safe = TaskStore.escapeHtml;
+    function buildActions(task) {
         const title = safe(task.title);
         const isDone = task.status === "completed";
         const toggleLabel = isDone ? "Mark as not completed" : "Mark as completed";
 
+        return `
+      <button type="button" class="btn btn-sm btn-outline-success" data-action="toggle" data-id="${task.id}"
+              title="${toggleLabel}" aria-label="${toggleLabel}: ${title}">
+        <i class="bi ${isDone ? "bi-arrow-counterclockwise" : "bi-check-lg"}" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="edit" data-id="${task.id}"
+              title="Edit" aria-label="Edit: ${title}">
+        <i class="bi bi-pencil" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${task.id}"
+              title="Delete" aria-label="Delete: ${title}">
+        <i class="bi bi-trash" aria-hidden="true"></i>
+      </button>`;
+    }
+
+    /**
+     * One table row (tablet and desktop).
+     */
+    function buildRow(task) {
         return `<tr>
-      <td class="${isDone ? "text-decoration-line-through text-body-secondary" : "fw-semibold"}">${title}</td>
+      <td class="${titleClass(task)}">${safe(task.title)}</td>
       <td class="text-body-secondary">${safe(task.description)}</td>
       <td class="text-nowrap">${formatDate(task.dueDate)}</td>
       <td><span class="badge ${PRIORITY_BADGES[task.priority]}">${capitalise(task.priority)}</span></td>
       <td><span class="badge ${STATUS_BADGES[task.status]}">${STATUS_LABELS[task.status]}</span></td>
-      <td class="text-end text-nowrap">
-        <button type="button" class="btn btn-sm btn-outline-success" data-action="toggle" data-id="${task.id}"
-                title="${toggleLabel}" aria-label="${toggleLabel}: ${title}">
-          <i class="bi ${isDone ? "bi-arrow-counterclockwise" : "bi-check-lg"}" aria-hidden="true"></i>
-        </button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-action="edit" data-id="${task.id}"
-                title="Edit" aria-label="Edit: ${title}">
-          <i class="bi bi-pencil" aria-hidden="true"></i>
-        </button>
-        <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${task.id}"
-                title="Delete" aria-label="Delete: ${title}">
-          <i class="bi bi-trash" aria-hidden="true"></i>
-        </button>
-      </td>
+      <td class="text-end text-nowrap">${buildActions(task)}</td>
     </tr>`;
     }
+
+    /**
+     * One card in the mobile list (phones). The description is hidden in a Bootstrap
+     * collapse panel and opens with the "Description" button.
+     */
+    function buildMobileItem(task) {
+        const descriptionId = "desc-" + task.id;
+
+        return `<li class="list-group-item py-3">
+      <div class="d-flex justify-content-between align-items-start gap-2">
+        <div>
+          <div class="${titleClass(task)}">${safe(task.title)}</div>
+          <div class="small text-body-secondary">Due ${formatDate(task.dueDate)}</div>
+        </div>
+        <div class="d-flex flex-column align-items-end gap-1">
+          <span class="badge ${PRIORITY_BADGES[task.priority]}">${capitalise(task.priority)}</span>
+          <span class="badge ${STATUS_BADGES[task.status]}">${STATUS_LABELS[task.status]}</span>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <button type="button" class="btn btn-sm btn-link px-0 text-decoration-none"
+                data-bs-toggle="collapse" data-bs-target="#${descriptionId}"
+                aria-expanded="false" aria-controls="${descriptionId}">
+          Description <i class="bi bi-chevron-down" aria-hidden="true"></i>
+        </button>
+        <div class="text-nowrap">${buildActions(task)}</div>
+      </div>
+
+      <div class="collapse" id="${descriptionId}">
+        <p class="small text-body-secondary mb-0 mt-2">${safe(task.description)}</p>
+      </div>
+    </li>`;
+    }
+
+    /* ---------- Search, filters, sorting ---------- */
 
     /**
      * Compares two tasks according to the selected sort option.
@@ -121,6 +172,8 @@
             .sort(compareTasks);
     }
 
+    /* ---------- Rendering ---------- */
+
     /**
      * Updates the summary counters. "Pending" = everything not completed
      * (both "To do" and "In progress").
@@ -136,14 +189,15 @@
     }
 
     /**
-     * Redraws the table from storage, applying search, filters and sorting.
-     * The summary counters always count all tasks, not just the visible ones.
+     * Redraws both views from storage, applying search, filters and sorting.
+     * Only one view is visible at a time (CSS decides by screen width).
      */
     function renderTasks() {
         const tasks = TaskStore.getTasks();
         const visibleTasks = getVisibleTasks(tasks);
 
         tableBody.innerHTML = visibleTasks.map(buildRow).join("");
+        mobileList.innerHTML = visibleTasks.map(buildMobileItem).join("");
         resultCount.textContent = "Showing " + visibleTasks.length + " of " + tasks.length + " tasks";
 
         emptyMessage.textContent =
@@ -253,7 +307,7 @@
         titleInput.focus();
     }
 
-    /* ---------- Row actions ---------- */
+    /* ---------- Row / card actions ---------- */
 
     /**
      * Switches a task between completed and to do.
@@ -295,8 +349,8 @@
     form.addEventListener("input", validateCustomRules);
     cancelButton.addEventListener("click", exitEditMode);
 
-    // One click listener for every row button (event delegation)
-    tableBody.addEventListener("click", function (event) {
+    // One click listener for the buttons in both views (event delegation)
+    taskViews.addEventListener("click", function (event) {
         const button = event.target.closest("button[data-action]");
         if (!button) {
             return;

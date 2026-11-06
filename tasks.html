@@ -149,20 +149,26 @@
                     </div>
                     <p id="result-count" class="small text-body-secondary mb-2" aria-live="polite"></p>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Task</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Due</th>
-                                    <th scope="col">Priority</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col" class="text-end">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="task-table-body"></tbody>
-                        </table>
+                    <div id="task-views">
+                        <!--Tablet and desktop: table -->
+                        <div class="table-responsive d-none d-md-block">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Task</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Due</th>
+                                        <th scope="col">Priority</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col" class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="task-table-body"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Phones: card list with collapsible descriptions -->
+                        <ul id="task-list-mobile" class="list-group d-md-none"></ul>
                     </div>
 
                     <p id="empty-message" class="text-body-secondary d-none">No tasks yet. Add one with the form.</p>
