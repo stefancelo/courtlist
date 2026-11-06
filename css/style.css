@@ -134,3 +134,27 @@ main {
 .btn[aria-expanded="true"] .bi-chevron-down {
   transform: rotate(180deg);
 }
+
+/* Typography: Inter for body text, Barlow Condensed for large headings (scoreboard feel) */
+:root {
+  --bs-body-font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+h1,
+.display-5,
+.display-6,
+h2.h3,
+h2.h4,
+.navbar-brand,
+.countdown-number {
+  font-family: "Barlow Condensed", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Home hero: navy gradient with an orange glow, dark in both themes */
+.hero {
+  color: var(--bs-body-color);
+  background: radial-gradient(circle at 85% 35%, rgba(255, 101, 0, 0.35), transparent 45%),
+    linear-gradient(135deg, #0b1f3a 0%, #13294b 60%, #0b1f3a 100%);
+}
