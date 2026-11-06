@@ -103,8 +103,8 @@
 
     /* ---------- Component 1: countdown ---------- */
 
-    const countdownEl = document.getElementById("countdown");
-    const nextGameEl = document.getElementById("next-game");
+    const countdownEl = document.querySelector("#countdown");
+    const nextGameEl = document.querySelector("#next-game");
     const nextGame = FIXTURES[0];
     let timerId = null;
 
@@ -136,15 +136,15 @@
         UNITS.forEach(function (unit) {
             const value = Math.floor(remaining / unit.ms);
             remaining -= value * unit.ms;
-            document.getElementById("cd-" + unit.id).textContent = String(value).padStart(2, "0");
+            document.querySelector("#cd-" + unit.id).textContent = String(value).padStart(2, "0");
         });
     }
 
     /* ---------- Component 2: fixtures and prep tasks ---------- */
 
-    const fixturesBody = document.getElementById("fixtures-body");
-    const toastMessage = document.getElementById("toast-message");
-    const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("gameweek-toast"));
+    const fixturesBody = document.querySelector("#fixtures-body");
+    const toastMessage = document.querySelector("#toast-message");
+    const toast = bootstrap.Toast.getOrCreateInstance(document.querySelector("#gameweek-toast"));
 
     /**
      * Returns the HTML for one fixture row.
@@ -197,7 +197,7 @@
 
     /* ---------- Component 3: checklists accordion ---------- */
 
-    const checklistsEl = document.getElementById("checklists");
+    const checklistsEl = document.querySelector("#checklists");
 
     /**
      * Reads the saved ticks: { "pao-par": [true, false, ...], ... }

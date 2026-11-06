@@ -6,8 +6,8 @@
 (function () {
     "use strict";
 
-    const statusCanvas = document.getElementById("status-chart");
-    const priorityCanvas = document.getElementById("priority-chart");
+    const statusCanvas = document.querySelector("#status-chart");
+    const priorityCanvas = document.querySelector("#priority-chart");
 
     const STATUSES = ["todo", "in-progress", "completed"];
     const PRIORITIES = ["high", "medium", "low"];

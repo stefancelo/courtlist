@@ -9,18 +9,18 @@
 
     /* ---------- Page elements ---------- */
 
-    const tableBody = document.getElementById("task-table-body");
-    const emptyMessage = document.getElementById("empty-message");
-    const resultCount = document.getElementById("result-count");
+    const tableBody = document.querySelector("#task-table-body");
+    const emptyMessage = document.querySelector("#empty-message");
+    const resultCount = document.querySelector("#result-count");
 
-    const countTotal = document.getElementById("count-total");
-    const countPending = document.getElementById("count-pending");
-    const countCompleted = document.getElementById("count-completed");
+    const countTotal = document.querySelector("#count-total");
+    const countPending = document.querySelector("#count-pending");
+    const countCompleted = document.querySelector("#count-completed");
 
-    const searchInput = document.getElementById("search-input");
-    const statusFilter = document.getElementById("filter-status");
-    const priorityFilter = document.getElementById("filter-priority");
-    const sortSelect = document.getElementById("sort-tasks");
+    const searchInput = document.querySelector("#search-input");
+    const statusFilter = document.querySelector("#filter-status");
+    const priorityFilter = document.querySelector("#filter-priority");
+    const sortSelect = document.querySelector("#sort-tasks");
 
     /* ---------- Shared helpers from storage.js ---------- */
 
@@ -155,14 +155,14 @@
 
     /* ---------- Add / edit form ---------- */
 
-    const form = document.getElementById("task-form");
-    const formHeading = document.getElementById("form-heading");
-    const submitButton = document.getElementById("form-submit");
-    const cancelButton = document.getElementById("form-cancel");
-    const titleInput = document.getElementById("task-title");
-    const descriptionInput = document.getElementById("task-description");
-    const dueInput = document.getElementById("task-due");
-    const priorityInput = document.getElementById("task-priority");
+    const form = document.querySelector("#task-form");
+    const formHeading = document.querySelector("#form-heading");
+    const submitButton = document.querySelector("#form-submit");
+    const cancelButton = document.querySelector("#form-cancel");
+    const titleInput = document.querySelector("#task-title");
+    const descriptionInput = document.querySelector("#task-description");
+    const dueInput = document.querySelector("#task-due");
+    const priorityInput = document.querySelector("#task-priority");
 
     // The task being edited, or null when the form is adding a new task
     let editingTask = null;

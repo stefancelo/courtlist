@@ -7,7 +7,7 @@
 (function () {
   "use strict";
 
-  const board = document.getElementById("kanban-board");
+  const board = document.querySelector("#kanban-board");
   const COLUMNS = ["todo", "in-progress", "completed"];
 
   /**

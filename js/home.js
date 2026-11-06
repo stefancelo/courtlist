@@ -7,8 +7,8 @@
 
     /* Latest activity */
 
-    const activityList = document.getElementById("activity-list");
-    const activityEmpty = document.getElementById("activity-empty");
+    const activityList = document.querySelector("#activity-list");
+    const activityEmpty = document.querySelector("#activity-empty");
     const MAX_ITEMS = 6;
 
     // Icon, colour and wording per activity type
@@ -72,8 +72,8 @@
 
     /* ---------- Weather (Open-Meteo API, free, no key) ---------- */
 
-    const citySelect = document.getElementById("weather-city");
-    const weatherOutput = document.getElementById("weather-output");
+    const citySelect = document.querySelector("#weather-city");
+    const weatherOutput = document.querySelector("#weather-output");
 
     // Euroleague host cities and their coordinates
     const CITIES = [

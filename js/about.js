@@ -70,7 +70,7 @@
               ${isFirst ? 'class="active" aria-current="true"' : ""} aria-label="Step ${index + 1}"></button>`;
   }
 
-  document.getElementById("team-grid").innerHTML = TEAM.map(buildMemberCard).join("");
-  document.getElementById("carousel-slides").innerHTML = MILESTONES.map(buildSlide).join("");
-  document.getElementById("carousel-indicators").innerHTML = MILESTONES.map(buildIndicator).join("");
+  document.querySelector("#team-grid").innerHTML = TEAM.map(buildMemberCard).join("");
+  document.querySelector("#carousel-slides").innerHTML = MILESTONES.map(buildSlide).join("");
+  document.querySelector("#carousel-indicators").innerHTML = MILESTONES.map(buildIndicator).join("");
 })();

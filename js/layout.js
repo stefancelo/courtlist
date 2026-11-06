@@ -132,7 +132,7 @@
             logo.src = LOGOS[theme];
         });
 
-        const toggle = document.getElementById("theme-toggle");
+        const toggle = document.querySelector("#theme-toggle");
         const nextTheme = theme === "dark" ? "light" : "dark";
         toggle.innerHTML =
             theme === "dark"
@@ -147,7 +147,7 @@
         let currentTheme = getInitialTheme();
         applyTheme(currentTheme);
 
-        document.getElementById("theme-toggle").addEventListener("click", function () {
+        document.querySelector("#theme-toggle").addEventListener("click", function () {
             currentTheme = currentTheme === "dark" ? "light" : "dark";
             applyTheme(currentTheme);
             try {
@@ -155,7 +155,7 @@
             } catch (error) {}
         });
     }
-    document.getElementById("site-header").innerHTML = buildHeader();
-    document.getElementById("site-footer").innerHTML = buildFooter();
+    document.querySelector("#site-header").innerHTML = buildHeader();
+    document.querySelector("#site-footer").innerHTML = buildFooter();
     initThemeToggle();
 })();
