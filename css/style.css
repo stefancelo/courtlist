@@ -120,8 +120,13 @@ main {
   --bs-btn-border-color: #adb5bd;
 }
 
-/* Reserve the navbar's height before layout.js inserts it, so the page doesn't jump */
+/* The header wrapper is the sticky element: the navbar inside it can't stick on its own,
+   because a sticky element only sticks within its parent, and this div is its parent.
+   min-height reserves the navbar's space before layout.js inserts it (no layout shift). */
 #site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
   min-height: 67px;
 }
 
@@ -208,5 +213,47 @@ section[aria-labelledby="features-heading"] .card .bi {
   section[aria-labelledby="features-heading"] .card:hover,
   #team-grid .card:hover {
     transform: none;
+  }
+}
+
+/* Thin orange line under each page title that fades out to the right */
+main h1::after {
+  content: "";
+  display: block;
+  width: 12rem;
+  height: 3px;
+  margin-top: 0.6rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--cl-orange), transparent);
+}
+
+/* Navbar: slightly transparent background with a blur ("frosted glass") */
+.site-navbar {
+  background-color: rgba(var(--bs-body-bg-rgb), 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Current page link in brand orange */
+.navbar .nav-link {
+  position: relative;
+  font-weight: 500;
+}
+
+.navbar .nav-link.active {
+  color: var(--cl-orange);
+}
+
+/* On desktop, a short orange underline under the current page link */
+@media (min-width: 992px) {
+  .navbar .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: var(--bs-navbar-nav-link-padding-x);
+    right: var(--bs-navbar-nav-link-padding-x);
+    bottom: 0.1rem;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--cl-orange);
   }
 }

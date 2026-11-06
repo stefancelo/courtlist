@@ -43,7 +43,7 @@
     }
     function buildHeader() {
         return `
-      <nav class="navbar navbar-expand-lg sticky-top border-bottom bg-body" aria-label="Main navigation">
+        <nav class="navbar navbar-expand-lg sticky-top border-bottom site-navbar" aria-label="Main navigation">
         <div class="container">
           <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
             <img class="site-logo" src="img/logolight.png" alt="CourtList logo" width="40" height="40">
