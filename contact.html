@@ -88,7 +88,16 @@
                                         <div class="invalid-feedback">Enter a message of at least 10 characters.</div>
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-orange">Send message</button>
+                                        <button
+                                            type="submit"
+                                            id="contact-submit"
+                                            class="btn btn-orange"
+                                            aria-describedby="contact-hint">
+                                            Send message
+                                        </button>
+                                        <p id="contact-hint" class="small text-body-secondary mt-2 mb-0">
+                                            All fields are required. The button activates once every field is valid.
+                                        </p>
                                     </div>
                                 </div>
                             </form>
