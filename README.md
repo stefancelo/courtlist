@@ -248,9 +248,8 @@ the board and the charts.
 ## 5. Version control
 
 The project was developed on GitHub from the first day with small commits and descriptive messages in the form
-`what changed` (change/addition/fix). Refactor commits (for example moving
-shared helpers into `storage.js`) show the structure improving alongside new features. GitHub Pages deploys the site
-automatically on every push.
+`what changed` (change/addition/fix). Refactor commits (for example moving shared helpers into `storage.js`) show the
+structure improving alongside new features. GitHub Pages deploys the site automatically on every push.
 
 ## 6. Lighthouse audit
 
@@ -266,13 +265,13 @@ the result), in mobile mode, on the three most representative pages: home, tasks
 
 **Before**
 
-![Home before](docs/lighthouse/Before(home).png) ![Tasks before](docs/lighthouse/Before(tasks).png)
-![Analytics before](docs/lighthouse/Before(analytics).png)
+![Home before](<docs/lighthouse/Before(home).png>) ![Tasks before](<docs/lighthouse/Before(tasks).png>)
+![Analytics before](<docs/lighthouse/Before(analytics).png>)
 
 **After**
 
-![Home after](docs/lighthouse/After(home).png) ![Tasks after](docs/lighthouse/After(tasks).png) 
-![Analytics after](docs/lighthouse/After(analytics).png)
+![Home after](<docs/lighthouse/After(home).png>) ![Tasks after](<docs/lighthouse/After(tasks).png>)
+![Analytics after](<docs/lighthouse/After(analytics).png>)
 
 ### Findings and fixes
 
@@ -280,7 +279,7 @@ the result), in mobile mode, on the three most representative pages: home, tasks
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
 | Accessibility: insufficient contrast (home) | The audit ran in dark mode. Bootstrap keeps its grey outline button colour the same in dark mode, which is too dark on the navy hero | Lighter grey for outline buttons in dark mode only (one CSS rule, fixes every such button on the site) |
 | Best practices: console error (home)        | The hero logo pointed to a file name that did not exist (404)                                                                        | Corrected the file name                                                                                |
-| Performance: layout shift 0.081 (home)      | `layout.js` inserts the navbar after the page starts drawing, pushing the content down                                               | Reserved the navbar's height in CSS before it is inserted; after: [your CLS value]                     |
+| Performance: layout shift 0.081 (home)      | `layout.js` inserts the navbar after the page starts drawing, pushing the content down                                               | Reserved the navbar's height in CSS before it is inserted; CLS went from 0.081 to 0.002                |
 | Performance: render-blocking requests       | CSS files from the CDN load before the page can draw                                                                                 | `preconnect` hint so the browser connects to the CDN earlier                                           |
 | Not flagged, but fixed                      | Orange text was below the contrast minimum in light mode                                                                             | Darker brand orange in light mode                                                                      |
 
@@ -300,31 +299,32 @@ for a clearly better design.
 
 ## 7. Personal reflections
 
-- When i started this project, all I had built before were basic static html pages, but I had never worked with Javascript
-where several pages share the same data. Therefore, my first decision was putting all task storage in one file `storage.js`.
-At the beginning, it felt really overwhelming working on this project, but as time went on I got more and more used to it.
-One thing that was effective was that the kanban board, activity feed, and gameweek page all worked with the same tasks
-almost without any new code, because adding, moving, deleting a task goes through the same functions.
-- The biggest problems came with the mobile view, accomodating every feature to work well on mobile as well as Desktop.
-Furthermore, fixing problems like the navbar not being sticky and staying on your screen as you scroll, the weather widget
-causing screen flickers upon each city change, navbar changing heights randomly. Fixing these taught me to look out for
-issues at all times and to stress test my site properly.
-- Testing the site on real devices made me change the design more than I initially expected. Lighthouse found an issue
-with the icon image path and contrast problem which only existed in dark mode, which I hadn't noticed until then.
-On the phone view, the tasks and fixtures table on gameweek needed sideways scrolling to complete actions, so I replaced
-them with card views that include dropdown function for the long parts (description, arena information), so that all
-the information fits on the screen. The hardest part to finish was tasks, because of the detail, length, and complexity of 
-the `tasks.js`file.
-- Using Git from the first day of starting the project was new for me, but actually really enjoyable. I really found it
-fascinating how Git works and what it does, as well as taken back at how cool it is to use it. I learned a lot by using
-it, and it also showed me how much easier it is when the work is spread out than doing it all at once.
-- Overall the experience was satisfying and taught me a lot. I was especially surprised when one line of code broke
-almost half of my pages, learning that one line has that much effect on the whole system was borderline
-fascinating to experience. I especially enjoyed styling the site, whether it was adding gradient background on the hero
-with a court outline, changing the font family, or making the site prettier. When I saw the look I made on the home page,
-I felt a feeling of satisfaction. Finally, after being overwhelmed at the beginning because of my past difficulties 
-with coding,the whole project went smoothly and I actually started understanding how some aspects of coding work and 
-what they do. I wouldn't say I am entirely familiar with it but I am definitely a step above than what I used to be.
+-   When i started this project, all I had built before were basic static html pages, but I had never worked with
+    Javascript where several pages share the same data. Therefore, my first decision was putting all task storage in one
+    file `storage.js`. At the beginning, it felt really overwhelming working on this project, but as time went on I got
+    more and more used to it. One thing that was effective was that the kanban board, activity feed, and gameweek page
+    all worked with the same tasks almost without any new code, because adding, moving, deleting a task goes through the
+    same functions.
+-   The biggest problems came with the mobile view, accomodating every feature to work well on mobile as well as
+    Desktop. Furthermore, fixing problems like the navbar not being sticky and staying on your screen as you scroll, the
+    weather widget causing screen flickers upon each city change, navbar changing heights randomly. Fixing these taught
+    me to look out for issues at all times and to stress test my site properly.
+-   Testing the site on real devices made me change the design more than I initially expected. Lighthouse found an issue
+    with the icon image path and contrast problem which only existed in dark mode, which I hadn't noticed until then. On
+    the phone view, the tasks and fixtures table on gameweek needed sideways scrolling to complete actions, so I
+    replaced them with card views that include dropdown function for the long parts (description, arena information), so
+    that all the information fits on the screen. The hardest part to finish was tasks, because of the detail, length,
+    and complexity of the `tasks.js`file.
+-   Using Git from the first day of starting the project was new for me, but actually really enjoyable. I really found
+    it fascinating how Git works and what it does, as well as taken back at how cool it is to use it. I learned a lot by
+    using it, and it also showed me how much easier it is when the work is spread out than doing it all at once.
+-   Overall the experience was satisfying and taught me a lot. I was especially surprised when one line of code broke
+    almost half of my pages, learning that one line has that much effect on the whole system was borderline fascinating
+    to experience. I especially enjoyed styling the site, whether it was adding gradient background on the hero with a
+    court outline, changing the font family, or making the site prettier. When I saw the look I made on the home page, I
+    felt a feeling of satisfaction. Finally, after being overwhelmed at the beginning because of my past difficulties
+    with coding,the whole project went smoothly and I actually started understanding how some aspects of coding work and
+    what they do. I wouldn't say I am entirely familiar with it but I am definitely a step above than what I used to be.
 
 ## 8. Credits
 
