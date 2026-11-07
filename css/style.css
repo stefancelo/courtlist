@@ -157,10 +157,13 @@ h2.h4,
   letter-spacing: 0.01em;
 }
 
-/* Home hero: navy gradient with an orange glow, dark in both themes */
+/* Home hero: orange glow, faint court lines and a navy gradient, dark in both themes.
+   Layers are listed top to bottom: the first one is drawn on top. */
 .hero {
   color: var(--bs-body-color);
-  background: radial-gradient(circle at 85% 35%, rgba(255, 101, 0, 0.35), transparent 45%),
+  background:
+    radial-gradient(circle at 85% 35%, rgba(255, 101, 0, 0.35), transparent 45%),
+    url("../img/court.svg") center / cover no-repeat,
     linear-gradient(135deg, #0b1f3a 0%, #13294b 60%, #0b1f3a 100%);
 }
 

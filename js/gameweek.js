@@ -142,26 +142,61 @@
 
     /* ---------- Component 2: fixtures and prep tasks ---------- */
 
+    const fixtureViews = document.querySelector("#fixture-views");
     const fixturesBody = document.querySelector("#fixtures-body");
+    const fixturesMobile = document.querySelector("#fixtures-mobile");
     const toastMessage = document.querySelector("#toast-message");
     const toast = bootstrap.Toast.getOrCreateInstance(document.querySelector("#gameweek-toast"));
 
     /**
-     * Returns the HTML for one fixture row.
+     * The "Prep task" button. Used by both the table and the mobile cards.
+     */
+    function buildPrepButton(fixture) {
+        const game = fixture.home + " vs " + fixture.away;
+        return `<button type="button" class="btn btn-sm btn-outline-secondary text-nowrap flex-shrink-0" data-fixture="${fixture.id}"
+              aria-label="Create a preparation task for ${game}">
+        <i class="bi bi-plus-lg" aria-hidden="true"></i> Prep task
+      </button>`;
+    }
+
+    /**
+     * One table row (tablet and desktop).
      */
     function buildFixtureRow(fixture) {
-        const game = fixture.home + " vs " + fixture.away;
         return `<tr>
-      <td class="fw-semibold">${game}</td>
+      <td class="fw-semibold">${fixture.home} vs ${fixture.away}</td>
       <td class="small">${fixture.arena}</td>
       <td class="small text-nowrap">${formatTipOff(fixture.tipOff)}</td>
-      <td class="text-end">
-        <button type="button" class="btn btn-sm btn-outline-secondary text-nowrap" data-fixture="${fixture.id}"
-                aria-label="Create a preparation task for ${game}">
-          <i class="bi bi-plus-lg" aria-hidden="true"></i> Prep task
-        </button>
-      </td>
+      <td class="text-end">${buildPrepButton(fixture)}</td>
     </tr>`;
+    }
+
+    /**
+     * One card (phones). The arena is hidden in a Bootstrap collapse panel
+     * and opens with the "Arena" button.
+     */
+    function buildFixtureCard(fixture) {
+        const arenaId = "arena-" + fixture.id;
+
+        return `<li class="list-group-item py-3">
+      <div class="d-flex justify-content-between align-items-start gap-2">
+        <div>
+          <div class="fw-semibold">${fixture.home} vs ${fixture.away}</div>
+          <div class="small text-body-secondary">${formatTipOff(fixture.tipOff)}</div>
+        </div>
+        ${buildPrepButton(fixture)}
+      </div>
+      <button type="button" class="btn btn-sm btn-link px-0 mt-1 text-decoration-none"
+              data-bs-toggle="collapse" data-bs-target="#${arenaId}"
+              aria-expanded="false" aria-controls="${arenaId}">
+        Arena <i class="bi bi-chevron-down" aria-hidden="true"></i>
+      </button>
+      <div class="collapse" id="${arenaId}">
+        <p class="small text-body-secondary mb-0 mt-1">
+          <i class="bi bi-geo-alt me-1" aria-hidden="true"></i>${fixture.arena}
+        </p>
+      </div>
+    </li>`;
     }
 
     /**
@@ -283,7 +318,7 @@
     /* ---------- Event listeners ---------- */
 
     // One listener for all "Prep task" buttons
-    fixturesBody.addEventListener("click", function (event) {
+    fixtureViews.addEventListener("click", function (event) {
         const button = event.target.closest("button[data-fixture]");
         if (!button) {
             return;
@@ -314,5 +349,6 @@
     timerId = setInterval(updateCountdown, 1000);
 
     fixturesBody.innerHTML = FIXTURES.map(buildFixtureRow).join("");
+    fixturesMobile.innerHTML = FIXTURES.map(buildFixtureCard).join("");
     checklistsEl.innerHTML = FIXTURES.map(buildChecklist).join("");
 })();

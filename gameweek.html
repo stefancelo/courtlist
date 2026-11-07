@@ -50,18 +50,24 @@
             <!-- Component 2: fixtures with "create prep task" buttons -->
             <section class="mb-4" aria-labelledby="fixtures-heading">
                 <h2 id="fixtures-heading" class="h4 mb-3">Round fixtures</h2>
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col">Game</th>
-                                <th scope="col">Arena</th>
-                                <th scope="col">Tip-off</th>
-                                <th scope="col" class="text-end">Preparation</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fixtures-body"></tbody>
-                    </table>
+                <div id="fixture-views">
+                    <!-- Tablet and desktop: table -->
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Game</th>
+                                    <th scope="col">Arena</th>
+                                    <th scope="col">Tip-off</th>
+                                    <th scope="col" class="text-end">Preparation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fixtures-body"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Phones: card list with the arena in a collapsible panel -->
+                    <ul id="fixtures-mobile" class="list-group d-md-none"></ul>
                 </div>
             </section>
 
