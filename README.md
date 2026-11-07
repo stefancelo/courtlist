@@ -266,13 +266,13 @@ the result), in mobile mode, on the three most representative pages: home, tasks
 
 **Before**
 
-![Home before](docs/lighthouse/before(home).png) ![Tasks before](docs/lighthouse/Before(tasks).png)
+![Home before](docs/lighthouse/Before(home).png) ![Tasks before](docs/lighthouse/Before(tasks).png)
 ![Analytics before](docs/lighthouse/Before(analytics).png)
 
 **After**
 
-![Home after](docs/lighthouse/after(home).png) ![Tasks after](docs/lighthouse/after(tasks).png) 
-![Analytics after](docs/lighthouse/after(analytics).png)
+![Home after](docs/lighthouse/After(home).png) ![Tasks after](docs/lighthouse/After(tasks).png) 
+![Analytics after](docs/lighthouse/After(analytics).png)
 
 ### Findings and fixes
 
