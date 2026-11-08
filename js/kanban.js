@@ -6,7 +6,7 @@
  */
 (function () {
   "use strict";
-
+  // Column order on the board; also the order the arrow buttons move through
   const board = document.querySelector("#kanban-board");
   const COLUMNS = ["todo", "in-progress", "completed"];
 
@@ -49,9 +49,11 @@
     const columnTasks = tasks.filter(function (task) {
       return task.status === status;
     });
-    const cards = columnTasks.map(function (task) {
-      return buildCard(task, columnIndex);
-    }).join("");
+    const cards = columnTasks
+      .map(function (task) {
+        return buildCard(task, columnIndex);
+      })
+      .join("");
 
     return `<div class="col-md-4">
       <section class="kanban-column card h-100" data-status="${status}" aria-labelledby="column-${status}">
@@ -89,6 +91,7 @@
 
   /* ---------- Drag and drop (event delegation on the board) ---------- */
 
+  // Drag starts: remember which card is being dragged and fade it
   board.addEventListener("dragstart", function (event) {
     const card = event.target.closest(".kanban-card");
     if (!card) {
@@ -99,6 +102,7 @@
     card.classList.add("dragging");
   });
 
+  // Drag ends (dropped or cancelled): remove the fade
   board.addEventListener("dragend", function (event) {
     const card = event.target.closest(".kanban-card");
     if (card) {
@@ -106,6 +110,7 @@
     }
   });
 
+  // Card is over a column: preventDefault() is what allows dropping here; highlight the column
   board.addEventListener("dragover", function (event) {
     const column = event.target.closest(".kanban-column");
     if (column) {
@@ -114,6 +119,7 @@
     }
   });
 
+  // Card leaves a column: remove the highlight (ignore moves between elements inside the column)
   board.addEventListener("dragleave", function (event) {
     const column = event.target.closest(".kanban-column");
     if (column && !column.contains(event.relatedTarget)) {
@@ -121,6 +127,7 @@
     }
   });
 
+  // Card dropped on a column: change the task's status to that column's status
   board.addEventListener("drop", function (event) {
     const column = event.target.closest(".kanban-column");
     if (!column) {
@@ -153,5 +160,6 @@
 
   // Draw now, and redraw whenever tasks change
   renderBoard();
+  // Redraw whenever any page changes a task (event fired by storage.js)
   document.addEventListener("courtlist:taskschange", renderBoard);
 })();

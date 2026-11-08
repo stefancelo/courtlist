@@ -1,6 +1,14 @@
+/**
+ * layout.js
+ * Builds the shared header (skip link, navbar, dark mode toggle) and footer once,
+ * and injects them into every page. Each HTML page has an empty <div id="site-header">
+ * and <div id="site-footer">; this file fills them.
+ * Wrapped in an IIFE so none of its variables become global.
+ */
 (function () {
     "use strict";
 
+    // All navbar pages in one list. To add or rename a page, change it here only.
     const NAV_LINKS = [
         { href: "index.html", label: "Home" },
         { href: "tasks.html", label: "Tasks" },
@@ -10,24 +18,35 @@
         { href: "contact.html", label: "Contact" }
     ];
 
+    // Social media profiles shown in the footer
     const SOCIAL_LINKS = [
-        { href: "https://x.com/MiskoRaznatovic", icon: "bi-twitter-x", label: "X" },
+        { href: "https://x.com", icon: "bi-twitter-x", label: "X" },
         { href: "https://instagram.com/esbekal", icon: "bi-instagram", label: "Instagram" },
         { href: "https://github.com/stefancelo/courtlist", icon: "bi-github", label: "GitHub" }
     ];
 
+    // localStorage key for the user's theme choice
     const THEME_KEY = "courtlist-theme";
 
+    // Logo image for each theme (navy lines for light mode, white lines for dark mode)
     const LOGOS = {
         light: "img/logolight.png",
         dark: "img/logodark.png"
     };
 
+    /**
+     * Returns the file name of the current page, e.g. "tasks.html".
+     * An empty name means the site root, which serves index.html.
+     */
     function getCurrentPage() {
         const fileName = window.location.pathname.split("/").pop();
         return fileName === "" ? "index.html" : fileName;
     }
 
+    /**
+     * Builds the <li> items for the navbar and marks the current page as active
+     * (Bootstrap's "active" class plus aria-current for screen readers).
+     */
     function buildNavLinks() {
         const currentPage = getCurrentPage();
 
@@ -41,8 +60,14 @@
       </li>`;
         }).join("");
     }
+
+    /**
+     * Returns the header HTML: a skip link for keyboard users, then the navbar with
+     * logo, page links (collapsing into a hamburger menu below 992px) and the theme toggle.
+     */
     function buildHeader() {
         return `
+        <a href="#main-content" class="skip-link visually-hidden-focusable btn btn-orange position-absolute top-0 start-0 m-2">Skip to main content</a>
         <nav class="navbar navbar-expand-lg sticky-top border-bottom site-navbar" aria-label="Main navigation">
         <div class="container">
           <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
@@ -66,6 +91,10 @@
       </nav>`;
     }
 
+    /**
+     * Builds the social media icon links. Used in the footer and on the contact page.
+     * Icons have no text, so each link gets an aria-label for screen readers.
+     */
     function buildSocialLinks() {
         return SOCIAL_LINKS.map(function (link) {
             return `<a href="${link.href}" class="link-body-emphasis fs-5" target="_blank" rel="noopener"
@@ -75,6 +104,10 @@
         }).join("");
     }
 
+    /**
+     * Returns the footer HTML: logo and tagline, contact email, social links and copyright.
+     * The copyright year is always the current year.
+     */
     function buildFooter() {
         const year = new Date().getFullYear();
 
@@ -125,13 +158,19 @@
         return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
 
+    /**
+     * Applies a theme everywhere: Bootstrap colours (data-bs-theme on <html>),
+     * both logos, the toggle button's icon and label, and tells other scripts about it.
+     */
     function applyTheme(theme) {
         document.documentElement.setAttribute("data-bs-theme", theme);
 
+        // Swap every logo (navbar and footer) to the version that suits this theme
         document.querySelectorAll(".site-logo").forEach(function (logo) {
             logo.src = LOGOS[theme];
         });
 
+        // The button shows what clicking will switch to: a sun in dark mode, a moon in light mode
         const toggle = document.querySelector("#theme-toggle");
         const nextTheme = theme === "dark" ? "light" : "dark";
         toggle.innerHTML =
@@ -139,10 +178,14 @@
                 ? '<i class="bi bi-sun" aria-hidden="true"></i>'
                 : '<i class="bi bi-moon-stars" aria-hidden="true"></i>';
         toggle.setAttribute("aria-label", "Switch to " + nextTheme + " mode");
-        // Let page scripts (e.g. charts) react to the theme change
+
+        // Let page scripts (e.g. the charts) react to the theme change
         document.dispatchEvent(new CustomEvent("courtlist:themechange", { detail: { theme: theme } }));
     }
 
+    /**
+     * Applies the starting theme, then switches and saves the theme on every click of the toggle.
+     */
     function initThemeToggle() {
         let currentTheme = getInitialTheme();
         applyTheme(currentTheme);
@@ -152,10 +195,23 @@
             applyTheme(currentTheme);
             try {
                 localStorage.setItem(THEME_KEY, currentTheme);
-            } catch (error) {}
+            } catch (error) {
+                // Saving failed (storage blocked); the theme still changes for this page
+            }
         });
     }
+
+    /* ---------- Start: inject the shared layout, then set up dark mode ---------- */
+
     document.querySelector("#site-header").innerHTML = buildHeader();
     document.querySelector("#site-footer").innerHTML = buildFooter();
+
+    // Pages with a social links box (the contact page) get the same links as the footer
+    const contactSocial = document.querySelector("#contact-social");
+    if (contactSocial) {
+        contactSocial.innerHTML = buildSocialLinks();
+    }
+
+    // Must run after the header is injected, because the toggle button and logos are inside it
     initThemeToggle();
 })();

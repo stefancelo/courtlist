@@ -1,5 +1,5 @@
-/* New orange. Darker in light mode so orange text contrasts on white;
-   the brighter logo orange is used in dark mode, where it has enough contrast. */
+/* Brand orange, used through var(--cl-orange). Darker in light mode so orange text
+   meets contrast on white; the brighter logo orange is used in dark mode. */
 :root,
 [data-bs-theme="light"] {
   --cl-orange: #c2410c;
@@ -9,10 +9,13 @@
   --cl-orange: #ff6500;
 }
 
+/* Orange text, e.g. "List" in the brand name */
 .text-orange {
   color: var(--cl-orange);
 }
 
+/* Keeps the footer at the bottom of short pages: body is a full-height column
+   and <main> grows to fill the leftover space */
 body {
   min-height: 100vh;
   display: flex;
@@ -259,4 +262,9 @@ main h1::after {
     border-radius: 2px;
     background-color: var(--cl-orange);
   }
+}
+
+/* Skip link sits above the sticky navbar when it becomes visible */
+.skip-link {
+  z-index: 1100;
 }
